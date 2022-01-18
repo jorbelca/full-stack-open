@@ -7,7 +7,7 @@ const Statistics = ({ good, bad, neutral }) => {
   const All = () => good + bad + neutral
 
   if (good + bad + neutral === 0) {
-    return ""
+    return "No data"
   } else {
     return (
       <>
