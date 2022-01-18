@@ -5,7 +5,7 @@ const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
 const Statistics = ({ good, bad, neutral }) => {
   const All = () => good + bad + neutral
-  console.log(All)
+
   if (good + bad + neutral === 0) {
     return ""
   } else {
