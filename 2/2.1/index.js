@@ -4,19 +4,16 @@ import ReactDOM from "react-dom"
 const Header = (props) => {
   return <h1>{props.name}</h1>
 }
-const Part = (props) => {
-  console.log(props.parts[0].name)
+const Part = ({ parts }) => {
   return (
     <>
-      <h4>
-        {props.parts[0].name} : {props.parts[0].exercises}
-      </h4>
-      <h4>
-        {props.parts[1].name} : {props.parts[1].exercises}
-      </h4>
-      <h4>
-        {props.parts[2].name} : {props.parts[2].exercises}
-      </h4>
+      {parts.map((part) => {
+        return (
+          <p>
+            {part.name} : {part.exercises}
+          </p>
+        )
+      })}
     </>
   )
 }
