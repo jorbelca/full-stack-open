@@ -4,17 +4,9 @@ import axios from "axios"
 
 const KEY = process.env.REACT_APP_API_KEY
 
-// const show = (country) => {
-//   return (
-//     <>
-//       {country.name}
-//       <CompleteCountry country={country} />
-//     </>
-//   )
-// }
 const CompleteCountry = ({ country, weather, setCity }) => {
   setCity(country.capital)
-  
+
   const icon = weather.weather[0].icon
   const url = `http://openweathermap.org/img/wn/${icon}@2x.png`
 
@@ -34,7 +26,7 @@ const CompleteCountry = ({ country, weather, setCity }) => {
   }
   return (
     <>
-      <div key={country.name.common}>
+      <div>
         <h1>{country.name.common}</h1>
 
         <p>Capital: {country.capital}</p>
@@ -72,30 +64,25 @@ const CompleteCountry = ({ country, weather, setCity }) => {
     </>
   )
 }
-const AbreviatedCountry = ({ country }) => {
+const AbreviatedCountry = ({ country, setCountries }) => {
   return (
     <>
       <li key={country.name.common}>
         <span>{country.name.common}</span>
         <span>&nbsp;</span>
-        {/* <button onClick={show(country)}>Show</button> */}
+        <button onClick={() => setCountries([country])}>Show</button>
       </li>
     </>
   )
 }
 
 const Filter = ({ search, countries, newSearch, setCountries }) => {
-  const filter = (search) => {
-    const result = countries.filter((country) => {
-      if (
+  const filter = (search) =>
+    setCountries(
+      countries.filter((country) =>
         country.name.common.toLocaleLowerCase().includes(search.toLowerCase())
-      ) {
-        return country
-      }
-    })
-
-    setCountries(result)
-  }
+      )
+    )
 
   const handleFilter = (e) => {
     newSearch(e.target.value)
@@ -148,12 +135,19 @@ const App = () => {
           : countries.length === 1
           ? countries.map((country) => (
               <CompleteCountry
+                key={country.population}
                 country={country}
                 weather={weather}
                 setCity={setCity}
               />
             ))
-          : countries.map((country) => <AbreviatedCountry country={country} />)}
+          : countries.map((country) => (
+              <AbreviatedCountry
+                key={country.population}
+                country={country}
+                setCountries={setCountries}
+              />
+            ))}
       </ul>
     </div>
   )
