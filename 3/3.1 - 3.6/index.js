@@ -70,9 +70,9 @@ app.get("/api/persons/:id", (request, response) => {
   }
 })
 
-app.delete("/api/person/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id)
-  person = persons.filter((person) => person.id !== id)
+  persons = persons.filter((person) => person.id !== id)
 
   response.status(204).end()
 })
@@ -85,9 +85,9 @@ app.post("/api/persons", (request, response) => {
       error: "content missing",
     })
   }
-  if ((body.name = persons.filter((person) => person.name))) {
+  if (body.name === persons.filter((person) => person.name)) {
     return response.status(400).json({
-      error: "name must be unique",
+      error: "The name must be unique",
     })
   }
   const person = {
