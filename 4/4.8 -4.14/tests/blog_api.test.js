@@ -1,8 +1,17 @@
 const mongoose = require("mongoose")
 const supertest = require("supertest")
 const app = require("../app")
+const Blog = require("../models/blog")
 const helper = require("../tests/test_helper")
 const api = supertest(app)
+
+beforeEach(async () => {
+  await Blog.deleteMany({})
+
+  const initial = helper.initialPublications.map((pub) => new Blog(pub))
+  const promiseArray = initial.map((i) => i.save())
+  await Promise.all(promiseArray)
+})
 
 test("blogs are returned as json", async () => {
   await api
@@ -10,7 +19,7 @@ test("blogs are returned as json", async () => {
     .expect(200)
     .expect("Content-Type", /application\/json/)
 })
-test.skip("there are 2 notes", async () => {
+test("there are 2 notes", async () => {
   const response = await api.get("/api/blogs")
 
   expect(response.body).toHaveLength(2)
@@ -26,16 +35,16 @@ test("the first note is about HTTP methods", async () => {
 test("verification of the propiety id", async () => {
   const { body } = await api.get("/api/blogs")
   const id = body.map((r) => r.id.key)
-  console.log(body)
-  expect(id).toBeDefined(id)
+
+  expect(id).toBeDefined()
 })
 
-test.skip("post a valid publication ", async () => {
+test("post a valid publication ", async () => {
   const newPublication = {
     title: "Test Publication",
     author: "testAdmin",
     url: "https://www.test.es",
-    likes: Math.random() * 10,
+    likes: Math.round(Math.random() * 100),
   }
 
   await api
@@ -52,7 +61,7 @@ test.skip("post a valid publication ", async () => {
   expect(title).toContain("Test Publication")
 })
 
-test.skip("post a publication withouth likes with default value of 0 ", async () => {
+test("post a publication withouth likes with default value of 0 ", async () => {
   const newPublication = {
     title: "Test Likes",
     author: "testAdmin",
@@ -76,7 +85,7 @@ test.skip("post a publication withouth likes with default value of 0 ", async ()
   expect(result).toBe(0)
 })
 // POST
-test.skip("post a publication withouth the title and the url ", async () => {
+test("post a publication withouth the title and the url ", async () => {
   const newPublication = {
     title: "",
     author: "testAdmin",
@@ -84,25 +93,32 @@ test.skip("post a publication withouth the title and the url ", async () => {
     likes: 2,
   }
 
-  await api.post("/api/blogs").send(newPublication).expect(404)
+  await api.post("/api/blogs").send(newPublication).expect(400)
 })
 
 // DELETE
 describe("delete", () => {
-  test.skip("if it goes ok ,returns 204", async () => {
+  test("if it goes ok ,returns 204", async () => {
     const all = await helper.publicationsInDB()
     const { id } = all[all.length - 1]
     console.log(id)
-    await api.delete(`api/blogs/${id}`).expect(204)
+    await api.delete(`/api/blogs/${id}`).expect(204)
   })
 })
 
 // UPDATE
 describe("Update", () => {
-  test.skip("post a publication withouth the title and the url ", async () => {
+  test("the likes of the last publication ", async () => {
+    const all = await helper.publicationsInDB()
+    const { id } = all[all.length - 1]
     const updatePublication = {
       likes: 2,
     }
+    await api.put(`/api/blogs/${id}`, updatePublication)
+
+    const retrieve = await helper.publicationsInDB()
+    const { likes } = retrieve[retrieve.length - 1]
+    expect(likes === updatePublication.likes)
   })
 })
 
