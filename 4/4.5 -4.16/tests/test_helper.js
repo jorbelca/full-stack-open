@@ -8,7 +8,7 @@ const initialPublications = [
     url: "jjjj",
     likes: 3,
     id: "61f7a46836eb4946ed6ea8dd",
-    userId:"61fad424f5cce0526345c8bf"
+    userId: "",
   },
   {
     title: "Prueba2",
@@ -16,6 +16,7 @@ const initialPublications = [
     url: "jjjjss",
     likes: 33,
     id: "61f7a76837918d6129352a8a",
+    userId: "",
   },
 ]
 
@@ -23,13 +24,12 @@ const initialUsers = [
   {
     name: "Pepe",
     username: "Pepito",
-    password: 123456,
-
+    password: "123456",
   },
   {
     name: "Juan",
     username: "Juanito",
-    password: 122226,
+    password: "122226",
   },
 ]
 const publicationsInDB = async () => {

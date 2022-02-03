@@ -16,7 +16,9 @@ usersRouter.get("/", async (request, response) => {
 usersRouter.post("/", async (request, response) => {
   const { name, username, password } = request.body
 
-  if (password.length < 3) {
+  if (!password || password === undefined) {
+    return response.status(400).json({ error: "Password field wrong" })
+  } else if (password.length < 3) {
     return response
       .status(400)
       .json({ error: "The password must have at least 3 characters of length" })

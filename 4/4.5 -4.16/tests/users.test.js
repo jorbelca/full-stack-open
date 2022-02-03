@@ -9,6 +9,7 @@ beforeEach(async () => {
   await User.deleteMany({})
 
   const initialUsers = helper.initialUsers.map((usr) => new User(usr))
+
   const promiseArray = initialUsers.map((i) => i.save())
   await Promise.all(promiseArray)
 })
@@ -21,7 +22,7 @@ describe("Existing users", () => {
   })
 })
 
-describe("Create", () => {
+describe("Create a new user", () => {
   test("if it goes right resolves with a 201", async () => {
     const newU = {
       name: "dummy",
