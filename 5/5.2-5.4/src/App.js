@@ -28,6 +28,7 @@ const Login = ({
           name="username"
           value={username}
           onChange={({ target }) => setUsername(target.value)}
+          autoComplete="current-password"
         />
         <br />
         <input
