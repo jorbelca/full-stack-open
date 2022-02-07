@@ -6,21 +6,25 @@ const LikeBtn = ({ blog, user, setBlogs, blogs }) => {
     backgroundColor: "lightblue",
     borderRadius: 6,
   }
+
   return (
     <button
       style={stylesLike}
       onClick={(e) => {
-        setBlogs(blogs)
-        e.preventDefault()
-        // debugger
-        const filtredBlog = blogs.filter((item) => item.id === blog.id)
-        const updatedLikes = {
-          ...filtredBlog,
-          likes: (filtredBlog[0].likes += 1),
-        }
-        blogService.updateBlog(user.token, blog.id, updatedLikes[0])
+        try {
+          e.preventDefault()
 
-        console.log(blogs)
+          const filtredBlog = blogs.filter((item) => item.id === blog.id)
+          const updatedLikes = {
+            ...filtredBlog,
+            likes: (filtredBlog[0].likes += 1),
+          }
+          blogService.updateBlog(user.token, blog.id, updatedLikes[0])
+
+          setBlogs([...blogs])
+        } catch (e) {
+          console.error(e)
+        }
       }}
     >
       Like

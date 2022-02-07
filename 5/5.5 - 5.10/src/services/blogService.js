@@ -5,25 +5,37 @@ const setHeader = (token) => {
   return { Authorization: `Bearer ${token}` }
 }
 const getAll = async (token) => {
-  const request = await axios.get(baseUrl, {
-    headers: setHeader(token),
-  })
+  try {
+    const request = await axios.get(baseUrl, {
+      headers: setHeader(token),
+    })
 
-  return request.data
+    return request.data
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 const createBlog = async (token, newBlog) => {
-  const response = await axios.post(baseUrl, newBlog, {
-    headers: setHeader(token),
-  })
-  return response.data
+  try {
+    const response = await axios.post(baseUrl, newBlog, {
+      headers: setHeader(token),
+    })
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 const deleteBlog = async (token, id) => {
-  const response = await axios.delete(`${baseUrl}/${id}`, {
-    headers: setHeader(token),
-  })
-  return response.data
+  try {
+    const response = await axios.delete(`${baseUrl}/${id}`, {
+      headers: setHeader(token),
+    })
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 const updateBlog = async (token, id, updatedLikes) => {

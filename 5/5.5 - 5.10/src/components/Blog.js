@@ -3,7 +3,7 @@ import LikeBtn from "./LikeBtn"
 import ToggleButton from "./ToggleButton"
 
 const Blog = ({ blog, user, setBlogs, blogs, setMessage, setWarning }) => {
-  console.log(blogs)
+
   return (
     <>
       <div>

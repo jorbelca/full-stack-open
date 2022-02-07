@@ -68,6 +68,9 @@ const Blogs = ({
       </ToggleButton>
       <h2>Blogs</h2>
       {blogs
+        .sort((a, b) => {
+          return b.likes - a.likes
+        })
         .map((blog) => (
           <Blog
             key={blog.id}
@@ -78,10 +81,7 @@ const Blogs = ({
             setMessage={setMessage}
             setWarning={setWarning}
           />
-        ))
-        .sort((a, b) => {
-          return b.likes - a.likes
-        })}
+        ))}
     </>
   )
 }
