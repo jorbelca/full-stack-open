@@ -10,6 +10,7 @@ const LikeBtn = ({ blog, user, setBlogs, blogs }) => {
     <button
       style={stylesLike}
       onClick={(e) => {
+        setBlogs(blogs)
         e.preventDefault()
         // debugger
         const filtredBlog = blogs.filter((item) => item.id === blog.id)
@@ -18,7 +19,7 @@ const LikeBtn = ({ blog, user, setBlogs, blogs }) => {
           likes: (filtredBlog[0].likes += 1),
         }
         blogService.updateBlog(user.token, blog.id, updatedLikes[0])
-        setTimeout(() => setBlogs(blogs), 300)
+
         console.log(blogs)
       }}
     >

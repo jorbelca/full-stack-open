@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import ToggleButton from "./ToggleButton"
 import Blog from "./Blog"
 import blogService from "../services/blogService"
-import Create from "./Add"
+import Create from "./Create"
 
 const Blogs = ({
   blogs,
@@ -16,6 +16,7 @@ const Blogs = ({
   const [title, setTitle] = useState("")
   const [url, setUrl] = useState("")
 
+  const createRef = useRef()
   const handleCreate = (e) => {
     e.preventDefault()
     try {
@@ -35,6 +36,7 @@ const Blogs = ({
       setTimeout(() => setMessage(""), 4000)
       setTitle("")
       setUrl("")
+      createRef.current.toggleVisibility()
     } catch (e) {
       console.error(e)
       setWarning("Have been a problem")
@@ -55,7 +57,7 @@ const Blogs = ({
         </button>
       </h5>
 
-      <ToggleButton label={"Create new Blog"}>
+      <ToggleButton label={"Create new Blog"} ref={createRef}>
         <Create
           url={url}
           title={title}

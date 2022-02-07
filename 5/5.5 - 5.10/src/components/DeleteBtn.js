@@ -16,9 +16,9 @@ const DeleteBtn = ({ setWarning, setMessage, blogs, user, blog, setBlogs }) => {
       onClick={(e) => {
         try {
           e.preventDefault()
-
           const filtredData = blogs.filter((item) => item.id !== blog.id)
           if (window.confirm`Do you want to delete the message`) {
+              
             setBlogs(filtredData)
             blogService.deleteBlog(user.token, blog.id)
             setMessage(`Deleted`)
