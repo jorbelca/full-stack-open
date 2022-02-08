@@ -1,7 +1,7 @@
 import blogService from "../services/blogService"
 import React from "react"
 
-const LikeBtn = ({ blog, user, setBlogs, blogs }) => {
+const LikeBtn = ({ blog, user, setBlogs, blogs, test }) => {
   const stylesLike = {
     marginLeft: 10,
     backgroundColor: "lightblue",
@@ -15,7 +15,7 @@ const LikeBtn = ({ blog, user, setBlogs, blogs }) => {
       onClick={(e) => {
         try {
           e.preventDefault()
-
+          test()
           const filtredBlog = blogs.filter((item) => item.id === blog.id)
           const updatedLikes = {
             ...filtredBlog,

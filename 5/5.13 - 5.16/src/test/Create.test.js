@@ -27,5 +27,4 @@ test("When a new form is submitted should target the functions that create the n
 
   expect(createTitle.mock.calls[0][0]).toBe("TEST")
   expect(createUrl.mock.calls[0][0]).toBe("https://www.test.es")
-  component.debug()
 })

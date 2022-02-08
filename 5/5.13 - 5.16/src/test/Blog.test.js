@@ -50,30 +50,29 @@ test("The url and the number of likes should be shown when the button is clicked
 
 // 5.15 una prueba que garantice que si se hace clic dos veces en el botón like, se llama dos veces al controlador de eventos que el componente recibió como argumentos.
 
-test.skip("When the like button is clicked two times, should call the function that manages the event two times", () => {
-  const Blg = {
+test("When the like button is clicked two times, should call the function that manages the event two times", () => {
+  const Blg = new Array({
     title: "Test",
     author: "Myself",
     url: "https://www.test.es",
     likes: 0,
-  }
+  })
   const mockHandler = jest.fn()
 
+  console.log(mockHandler)
   const component = render(
     <>
-      <Blog blog={Blg} />
-      <LikeBtn setBlogs={mockHandler} />
+      <LikeBtn test={mockHandler} />
     </>
   )
   expect(component).toBeDefined()
 
   const likeBtn = component.container.querySelector(".likeBtn")
   expect(likeBtn).toBeDefined()
+  fireEvent.click(likeBtn)
+  fireEvent.click(likeBtn)
 
-  fireEvent.click(likeBtn)
-  fireEvent.click(likeBtn)
-  expect(mockHandler).toHaveBeenCalled()
+  expect(mockHandler).toHaveBeenCalledTimes(2)
 
   component.debug()
 })
-
