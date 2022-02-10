@@ -9,7 +9,7 @@ const Blog = ({ blog, user, setBlogs, blogs, setMessage, setWarning }) => {
       <div className="blog">
         {blog.title}
 
-        <ToggleButton label={"View"}>
+        <ToggleButton label={"View"} id="view">
           Author: {blog.author}
           <br />
           Likes: {blog.likes}

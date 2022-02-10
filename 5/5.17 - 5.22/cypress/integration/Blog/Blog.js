@@ -44,11 +44,9 @@ describe("Note app", function () {
 
   describe("when logged in ", () => {
     beforeEach(() => {
-      cy.get('[name="username"]').type("TEST")
-      cy.get('[name="password"]').type("0000")
-      cy.contains("Log In").click()
-      cy.contains("test logged in")
+      cy.login({ username: "TEST", password: "0000" })
     })
+
     it("a blog can be created", () => {
       const title = "BlogTEST"
       const url = "https://TESTURL.com"
@@ -63,9 +61,6 @@ describe("Note app", function () {
       cy.contains(title)
     })
   })
-  // after(() => {
-  //   cy.contains("Logout").click({ timeout: 4000 })
-  // })
 })
 
 describe("Like", () => {
@@ -81,10 +76,7 @@ describe("Like", () => {
 
 describe("Delete", () => {
   beforeEach(() => {
-
-    cy.get('[name="username"]').type("USER")
-    cy.get('[name="password"]').type("0000")
-    cy.contains("Log In").click()
+    cy.login({ username: "USER", password: "0000" })
     cy.contains("user logged in")
   })
   it("a user CANNOT delete others blogs", () => {
@@ -97,10 +89,8 @@ describe("Delete", () => {
 
 describe("Delete", () => {
   beforeEach(() => {
-    cy.contains("Logout").click({ timeout: 3000 })
-    cy.get('[name="username"]').type("TEST")
-    cy.get('[name="password"]').type("0000")
-    cy.contains("Log In").click()
+    cy.contains("Logout").click({ timeout: 2000 })
+    cy.login({ username: "TEST", password: "0000" })
     cy.contains("test logged in")
   })
   it("a user CAN delete her blog", () => {
@@ -108,5 +98,43 @@ describe("Delete", () => {
     cy.contains("Author: test")
     cy.contains("Delete").click()
     cy.get(".message").contains("Deleted")
+  })
+})
+
+describe("Order", () => {
+  beforeEach(() => {
+    cy.login({ username: "TEST", password: "0000" })
+    cy.newBlog({
+      title: "PROVE_1",
+      url: "https://www.running_full_speed.com",
+      likes: 9,
+    })
+    cy.newBlog({
+      title: "PROVE_2",
+      url: "https://www.full_speed.com",
+      likes: 90,
+    })
+    cy.newBlog({
+      title: "PROVE_3",
+      url: "https://www.speed.com",
+      likes: 876567,
+    })
+    cy.newBlog({ title: "PROVE_4", url: "https://www.running.com", likes: 6 })
+  })
+  it("the blogs are ordered by the number of likes", () => {
+    cy.contains("View").click()
+    cy.get(".toggleInside")
+      .invoke("text")
+      .then((text) => {
+        var fullText = text
+        var pattern = /[0-9]+/g
+        var number = fullText.match(pattern)
+        console.log(number)
+        const comprove = (arr) =>
+          arr.join("") === arr.sort((a, b) => b - a).join("")
+        if (comprove(number)) return true
+        false
+      })
+      .should("be.true")
   })
 })
