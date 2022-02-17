@@ -4,21 +4,11 @@ import { useState, useEffect } from "react"
 import blogService from "./services/blogService"
 import Login from "./components/Login"
 import Blogs from "./components/Blogs"
-
-const Message = ({ message, warning }) => {
-  return (
-    <>
-      {message ? <div className="message">{message}</div> : ""}
-      {warning ? <div className="warning">{warning}</div> : ""}
-    </>
-  )
-}
+import Notification from "./components/Notification"
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [message, setMessage] = useState("")
-  const [warning, setWarning] = useState("")
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem("loggedUser")
@@ -31,17 +21,15 @@ const App = () => {
 
   return (
     <div>
-      <Message message={message} warning={warning} />
+      <Notification />
       {user === null ? (
-        <Login setBlogs={setBlogs} setUser={setUser} setWarning={setWarning} />
+        <Login setBlogs={setBlogs} setUser={setUser} />
       ) : (
         <Blogs
           blogs={blogs}
           user={user}
           setUser={setUser}
           setBlogs={setBlogs}
-          setMessage={setMessage}
-          setWarning={setWarning}
         />
       )}
     </div>

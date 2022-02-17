@@ -4,19 +4,18 @@ import Blog from "./Blog"
 import blogService from "../services/blogService"
 import Create from "./Create"
 import React from "react"
+import {
+  removeNotification,
+  setNotification,
+} from "../reducers/notificationReducer"
+import { useDispatch } from "react-redux"
+import { removeWarning, setWarning } from "../reducers/warningReducer"
 
-const Blogs = ({
-  blogs,
-  user,
-  setUser,
-
-  setBlogs,
-  setWarning,
-  setMessage,
-}) => {
+const Blogs = ({ blogs, user, setUser, setBlogs }, props) => {
   const [title, setTitle] = useState("")
   const [url, setUrl] = useState("")
 
+  const dispatch = useDispatch()
   const createRef = useRef()
   const handleCreate = (e) => {
     e.preventDefault()
@@ -33,15 +32,19 @@ const Blogs = ({
         () => blogService.getAll(user.token).then((blogs) => setBlogs(blogs)),
         500
       )
-      setMessage(`The new Blog ${title} by ${user.name} has been created`)
-      setTimeout(() => setMessage(""), 4000)
+      dispatch(
+        setNotification(
+          `The new Blog ${title} by ${user.name} has been created`
+        )
+      )
+      setTimeout(() => dispatch(removeNotification()), 3000)
       setTitle("")
       setUrl("")
       createRef.current.toggleVisibility()
     } catch (e) {
       console.error(e)
-      setWarning("Have been a problem")
-      setTimeout(() => setWarning(""), 3000)
+      dispatch(setWarning("Have been a problem"))
+      setTimeout(() => dispatch(removeWarning()), 3000)
     }
   }
   return (
@@ -79,8 +82,6 @@ const Blogs = ({
             user={user}
             setBlogs={setBlogs}
             blogs={blogs}
-            setMessage={setMessage}
-            setWarning={setWarning}
           />
         ))}
     </>

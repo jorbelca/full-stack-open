@@ -1,4 +1,6 @@
+import { setWarning, setNotification } from "../reducers/notificationReducer"
 import axios from "axios"
+
 const baseUrl = "http://localhost:3003/api/blogs"
 
 const setHeader = (token) => {
@@ -27,17 +29,14 @@ const createBlog = async (token, newBlog) => {
   }
 }
 
-const deleteBlog = async (token, id, setWarning, setMessage) => {
+const deleteBlog = async (token, id) => {
   try {
     const response = await axios.delete(`${baseUrl}/${id}`, {
       headers: setHeader(token),
     })
-    setMessage("Deleted")
-    setTimeout(() => setMessage(""), 4000)
+
     return response.data
   } catch (e) {
-    setWarning(`${e}`)
-    setTimeout(() => setWarning(""), 3000)
     console.error(e)
   }
 }

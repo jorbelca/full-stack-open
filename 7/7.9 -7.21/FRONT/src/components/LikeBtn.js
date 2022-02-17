@@ -1,5 +1,10 @@
 import blogService from "../services/blogService"
-import React from "react"
+import { useDispatch } from "react-redux"
+import { removeWarning, setWarning } from "../reducers/warningReducer"
+import {
+  removeNotification,
+  setNotification,
+} from "../reducers/notificationReducer"
 
 const LikeBtn = ({ blog, user, setBlogs, blogs }) => {
   const stylesLike = {
@@ -8,6 +13,7 @@ const LikeBtn = ({ blog, user, setBlogs, blogs }) => {
     borderRadius: 6,
   }
 
+  const dispatch = useDispatch()
   return (
     <button
       className="likeBtn"
@@ -24,12 +30,19 @@ const LikeBtn = ({ blog, user, setBlogs, blogs }) => {
           blogService.updateBlog(user.token, blog.id, updatedLikes[0])
 
           setBlogs([...blogs])
+          console.log(filtredBlog)
+          dispatch(
+            setNotification(`You have voted for ${filtredBlog[0].title} `)
+          )
+          setTimeout(() => dispatch(removeNotification()), 3000)
         } catch (e) {
           console.error(e)
+          dispatch(setWarning("There is a problem"))
+          setTimeout(() => dispatch(removeWarning()), 3000)
         }
       }}
     >
-      Like
+      Vote
     </button>
   )
 }

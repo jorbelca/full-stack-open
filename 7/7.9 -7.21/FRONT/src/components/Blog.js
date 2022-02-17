@@ -3,7 +3,7 @@ import LikeBtn from "./LikeBtn"
 import ToggleButton from "./ToggleButton"
 import React from "react"
 
-const Blog = ({ blog, user, setBlogs, blogs, setMessage, setWarning }) => {
+const Blog = ({ blog, user, setBlogs, blogs }) => {
   return (
     <>
       <div className="blog">
@@ -19,8 +19,6 @@ const Blog = ({ blog, user, setBlogs, blogs, setMessage, setWarning }) => {
           <br />
           <br />
           <DeleteBtn
-            setWarning={setWarning}
-            setMessage={setMessage}
             blog={blog}
             blogs={blogs}
             setBlogs={setBlogs}

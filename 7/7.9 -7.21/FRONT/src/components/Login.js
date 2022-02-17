@@ -2,8 +2,11 @@ import { useState } from "react"
 import blogService from "../services/blogService"
 import loginService from "../services/loginService"
 import React from "react"
+import { useDispatch } from "react-redux"
+import { removeWarning, setWarning } from "../reducers/warningReducer"
 
-const Login = ({ setBlogs, setUser, setWarning }) => {
+const Login = ({ setBlogs, setUser }) => {
+  const dispatch = useDispatch()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
@@ -23,8 +26,8 @@ const Login = ({ setBlogs, setUser, setWarning }) => {
         setPassword("")
       }
       if (!user) {
-        setWarning("Wrong credentials")
-        setTimeout(() => setWarning(""), 3000)
+        dispatch(setWarning("Wrong credentials"))
+        setTimeout(() => dispatch(removeWarning()), 3000)
 
         setUsername("")
         setPassword("")
@@ -32,7 +35,7 @@ const Login = ({ setBlogs, setUser, setWarning }) => {
     } catch (error) {
       console.error(error)
       setWarning("Wrong credentials")
-      setTimeout(() => setWarning(""), 3000)
+      setTimeout(() => dispatch(removeWarning()), 3000)
     }
   }
   return (
@@ -45,7 +48,7 @@ const Login = ({ setBlogs, setUser, setWarning }) => {
           name="username"
           value={username}
           onChange={({ target }) => setUsername(target.value)}
-          autoComplete="current-password"
+          autoComplete="current-username"
         />
         <br />
         <input
@@ -54,6 +57,7 @@ const Login = ({ setBlogs, setUser, setWarning }) => {
           name="password"
           value={password}
           onChange={({ target }) => setPassword(target.value)}
+          autoComplete="current-password"
         />
         <br />
         <button type="submit">Log In</button>
