@@ -4,12 +4,16 @@ import {
   removeNotification,
   setNotification,
 } from "../reducers/notificationReducer"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { removeWarning, setWarning } from "../reducers/warningReducer"
+import { deleteteBlogReducer } from "../reducers/blogsReducer"
 
-const DeleteBtn = ({ blogs, user, blog, setBlogs }) => {
+const DeleteBtn = ({ blog }) => {
+  const blogsA = useSelector((state) => state.blogs)
+  const blogs = blogsA.map((n) => n)
   const dispatch = useDispatch()
-
+  const user = useSelector((state) => state.user)
+  
   const stylesDelete = {
     backgroundColor: "red",
     color: "white",
@@ -28,7 +32,7 @@ const DeleteBtn = ({ blogs, user, blog, setBlogs }) => {
           const filtredData = blogs.filter((item) => item.id !== blog.id)
           if (window.confirm`Do you want to delete the message`) {
             blogService.deleteBlog(user.token, blog.id)
-            setBlogs(filtredData)
+            dispatch(deleteteBlogReducer(blog.id))
             dispatch(setNotification("Deleted"))
             setTimeout(() => dispatch(removeNotification()), 3000)
           }

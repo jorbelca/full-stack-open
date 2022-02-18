@@ -1,11 +1,12 @@
 import { useState } from "react"
 import blogService from "../services/blogService"
 import loginService from "../services/loginService"
-import React from "react"
 import { useDispatch } from "react-redux"
 import { removeWarning, setWarning } from "../reducers/warningReducer"
+import { setBlogs } from "../reducers/blogsReducer"
+import { setUser } from "../reducers/userReducer"
 
-const Login = ({ setBlogs, setUser }) => {
+const Login = () => {
   const dispatch = useDispatch()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -19,8 +20,10 @@ const Login = ({ setBlogs, setUser }) => {
         password,
       })
       if (user) {
-        setUser(user)
-        blogService.getAll(user.token).then((blogs) => setBlogs(blogs))
+        dispatch(setUser(user))
+        blogService
+          .getAll(user.token)
+          .then((blogs) => dispatch(setBlogs(blogs)))
         window.localStorage.setItem("loggedUser", JSON.stringify(user))
         setUsername("")
         setPassword("")

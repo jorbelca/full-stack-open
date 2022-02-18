@@ -3,17 +3,25 @@ import ToggleButton from "./ToggleButton"
 import Blog from "./Blog"
 import blogService from "../services/blogService"
 import Create from "./Create"
-import React from "react"
+import { Link } from "react-router-dom"
+
 import {
   removeNotification,
   setNotification,
 } from "../reducers/notificationReducer"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { removeWarning, setWarning } from "../reducers/warningReducer"
+import { createBlogReducer, setBlogs } from "../reducers/blogsReducer"
+import { removeUser } from "../reducers/userReducer"
 
-const Blogs = ({ blogs, user, setUser, setBlogs }, props) => {
+const Blogs = () => {
   const [title, setTitle] = useState("")
   const [url, setUrl] = useState("")
+  const user = useSelector((state) => state.user)
+
+  const blogsA = useSelector((state) => state.blogs)
+
+  const blogs = blogsA.map((n) => n)
 
   const dispatch = useDispatch()
   const createRef = useRef()
@@ -27,11 +35,11 @@ const Blogs = ({ blogs, user, setUser, setBlogs }, props) => {
         likes: "",
       }
       blogService.createBlog(user.token, newBlog)
-      setBlogs(blogs.concat(newBlog))
-      setTimeout(
-        () => blogService.getAll(user.token).then((blogs) => setBlogs(blogs)),
-        500
-      )
+      dispatch(createBlogReducer(newBlog))
+      // setTimeout(
+      //   () => blogService.getAll(user.token).then((blogs) => dispatch(setBlogs(blogs))),
+      //   500
+      // )
       dispatch(
         setNotification(
           `The new Blog ${title} by ${user.name} has been created`
@@ -49,18 +57,6 @@ const Blogs = ({ blogs, user, setUser, setBlogs }, props) => {
   }
   return (
     <>
-      <h5>
-        {user.name} logged in{" "}
-        <button
-          onClick={() => {
-            window.localStorage.removeItem("loggedUser")
-            setUser(null)
-          }}
-        >
-          Logout
-        </button>
-      </h5>
-
       <ToggleButton label={"Create new Blog"} ref={createRef}>
         <Create
           url={url}
@@ -76,13 +72,14 @@ const Blogs = ({ blogs, user, setUser, setBlogs }, props) => {
           return b.likes - a.likes
         })
         .map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            user={user}
-            setBlogs={setBlogs}
-            blogs={blogs}
-          />
+          <ul>
+            <Link to={`/blogs/${blog.id}`}>
+              <li>
+                {blog.title}
+                {/* <Blog key={blog.id} blog={blog} user={user} blogs={blogs} /> */}
+              </li>
+            </Link>
+          </ul>
         ))}
     </>
   )

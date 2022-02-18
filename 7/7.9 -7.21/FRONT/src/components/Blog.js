@@ -1,32 +1,32 @@
+import { useSelector } from "react-redux"
+import { useParams } from "react-router-dom"
+import Comments from "./Comments"
 import DeleteBtn from "./DeleteBtn"
 import LikeBtn from "./LikeBtn"
-import ToggleButton from "./ToggleButton"
-import React from "react"
 
-const Blog = ({ blog, user, setBlogs, blogs }) => {
+const Blog = () => {
+  const { id } = useParams((n) => n.id)
+  const blogs = useSelector((state) => state.blogs)
+  const blog = blogs.find((n) => n.id === id)
+
   return (
     <>
-      <div className="blog">
-        {blog.title}
-
-        <ToggleButton label={"View"} id="view">
-          Author: {blog.author}
-          <br />
-          Likes: {blog.likes}
-          <LikeBtn blog={blog} user={user} setBlogs={setBlogs} blogs={blogs} />
-          <br />
-          URL: {blog.url}
-          <br />
-          <br />
-          <DeleteBtn
-            blog={blog}
-            blogs={blogs}
-            setBlogs={setBlogs}
-            user={user}
-          />
-        </ToggleButton>
+      <div className="blog box">
+        Title: {blog.title}
+        <br />
+        Author: {blog.author}
+        <br />
+        Likes: {blog.likes}
+        <LikeBtn blog={blog} />
+        <br />
+        URL: {blog.url}
+        <br />
+        <br />
+        <DeleteBtn blog={blog} />
+        <br />
+        <br />
+        <Comments />
       </div>
-      <br />
     </>
   )
 }

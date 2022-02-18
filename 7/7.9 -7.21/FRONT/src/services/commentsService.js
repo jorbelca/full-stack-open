@@ -1,11 +1,12 @@
 import axios from "axios"
 
-const baseUrl = "http://localhost:3003/api/blogs"
+const baseUrl = "http://localhost:3003/api/comments"
 
 export const setHeader = (token) => {
   return { Authorization: `Bearer ${token}` }
 }
-const getAll = async (token) => {
+
+const getAllComments = async (token) => {
   try {
     const request = await axios.get(baseUrl, {
       headers: setHeader(token),
@@ -17,7 +18,7 @@ const getAll = async (token) => {
   }
 }
 
-const createBlog = async (token, newBlog) => {
+const createComment = async (token, newBlog) => {
   try {
     const response = await axios.post(baseUrl, newBlog, {
       headers: setHeader(token),
@@ -28,7 +29,7 @@ const createBlog = async (token, newBlog) => {
   }
 }
 
-const deleteBlog = async (token, id) => {
+const deleteComment = async (token, id) => {
   try {
     const response = await axios.delete(`${baseUrl}/${id}`, {
       headers: setHeader(token),
@@ -40,17 +41,4 @@ const deleteBlog = async (token, id) => {
   }
 }
 
-const updateBlog = async (token, blog) => {
-  const updatedLikes = { ...blog }
-  const id = updatedLikes.id
-  try {
-    updatedLikes.likes++
-    const response = await axios.put(`${baseUrl}/${id}`, updatedLikes, {
-      headers: setHeader(token),
-    })
-    return response.data
-  } catch (e) {
-    console.error(e)
-  }
-}
-export default { getAll, setHeader, createBlog, updateBlog, deleteBlog }
+export default { createComment, deleteComment, getAllComments }

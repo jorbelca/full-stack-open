@@ -1,19 +1,24 @@
 import blogService from "../services/blogService"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { removeWarning, setWarning } from "../reducers/warningReducer"
 import {
   removeNotification,
   setNotification,
 } from "../reducers/notificationReducer"
+import { updateLikesReducer } from "../reducers/blogsReducer"
 
-const LikeBtn = ({ blog, user, setBlogs, blogs }) => {
+const LikeBtn = ({ blog, }) => {
   const stylesLike = {
     marginLeft: 10,
     backgroundColor: "lightblue",
     borderRadius: 6,
   }
+  const user = useSelector((state) => state.user)
 
+  const blogsA = useSelector((state) => state.blogs)
+  const blogs = blogsA.map((n) => n)
   const dispatch = useDispatch()
+
   return (
     <button
       className="likeBtn"
@@ -22,15 +27,11 @@ const LikeBtn = ({ blog, user, setBlogs, blogs }) => {
         try {
           e.preventDefault()
 
-          const filtredBlog = blogs.filter((item) => item.id === blog.id)
-          const updatedLikes = {
-            ...filtredBlog,
-            likes: (filtredBlog[0].likes += 1),
-          }
-          blogService.updateBlog(user.token, blog.id, updatedLikes[0])
+          const filtredBlog = blogs.find((item) => item.id === blog.id)
 
-          setBlogs([...blogs])
-          console.log(filtredBlog)
+          blogService.updateBlog(user.token, filtredBlog)
+
+          dispatch(updateLikesReducer(blog.id))
           dispatch(
             setNotification(`You have voted for ${filtredBlog[0].title} `)
           )
