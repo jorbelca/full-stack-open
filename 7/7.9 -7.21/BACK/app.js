@@ -10,6 +10,7 @@ const loginRouter = require("./controllers/login")
 require("dotenv").config()
 const { errorHandler } = require("./middleware/middleware")
 const testingRouter = require("./controllers/testing")
+const commentsRouter = require("./controllers/comments")
 
 mongoose
   .connect(URL)
@@ -29,5 +30,5 @@ app.use("/api/login", loginRouter)
 app.use("/api/users", usersRouter)
 app.use(tokenExtractor)
 app.use("/api/blogs", blogsRouter)
-
+app.use("/api/comments", commentsRouter)
 module.exports = app
