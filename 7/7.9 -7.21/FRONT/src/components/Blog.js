@@ -16,11 +16,10 @@ const Blog = () => {
         <br />
         Author: {blog.author}
         <br />
-        Likes: {blog.likes}
-        <LikeBtn blog={blog} />
-        <br />
         URL: {blog.url}
         <br />
+        Likes: {blog.likes}
+        <LikeBtn blog={blog} />
         <br />
         <DeleteBtn blog={blog} />
         <br />

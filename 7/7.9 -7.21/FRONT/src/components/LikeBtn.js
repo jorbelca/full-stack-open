@@ -7,12 +7,7 @@ import {
 } from "../reducers/notificationReducer"
 import { updateLikesReducer } from "../reducers/blogsReducer"
 
-const LikeBtn = ({ blog, }) => {
-  const stylesLike = {
-    marginLeft: 10,
-    backgroundColor: "lightblue",
-    borderRadius: 6,
-  }
+const LikeBtn = ({ blog }) => {
   const user = useSelector((state) => state.user)
 
   const blogsA = useSelector((state) => state.blogs)
@@ -21,29 +16,30 @@ const LikeBtn = ({ blog, }) => {
 
   return (
     <button
-      className="likeBtn"
-      style={stylesLike}
+      className="button is-info is-outlined is-small ml-5 mb-2"
       onClick={(e) => {
         try {
           e.preventDefault()
-
           const filtredBlog = blogs.find((item) => item.id === blog.id)
 
           blogService.updateBlog(user.token, filtredBlog)
 
           dispatch(updateLikesReducer(blog.id))
-          dispatch(
-            setNotification(`You have voted for ${filtredBlog[0].title} `)
-          )
+
+          dispatch(setNotification(`You have voted for ${filtredBlog.title} `))
           setTimeout(() => dispatch(removeNotification()), 3000)
-        } catch (e) {
-          console.error(e)
+        } catch (error) {
+          console.error(error)
+
           dispatch(setWarning("There is a problem"))
           setTimeout(() => dispatch(removeWarning()), 3000)
         }
       }}
     >
-      Vote
+      <span className="icon is-small">
+        <i className="fa-solid fa-thumbs-up"></i>
+      </span>
+      <span>Vote</span>
     </button>
   )
 }

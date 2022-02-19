@@ -7,35 +7,30 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { removeWarning, setWarning } from "../reducers/warningReducer"
 import { deleteteBlogReducer } from "../reducers/blogsReducer"
+import { useNavigate } from "react-router-dom"
 
 const DeleteBtn = ({ blog }) => {
   const blogsA = useSelector((state) => state.blogs)
   const blogs = blogsA.map((n) => n)
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
-  
-  const stylesDelete = {
-    backgroundColor: "red",
-    color: "white",
-    borderColor: "white",
-    borderRadius: 8,
-    padding: 2,
-    marginRight: 10,
-  }
+  const navigate = useNavigate()
 
   return (
     <button
-      style={stylesDelete}
+      className="button is-danger is-outlined is-small"
       onClick={(e) => {
         e.preventDefault()
         try {
-          const filtredData = blogs.filter((item) => item.id !== blog.id)
+          
+          
           if (window.confirm`Do you want to delete the message`) {
             blogService.deleteBlog(user.token, blog.id)
             dispatch(deleteteBlogReducer(blog.id))
             dispatch(setNotification("Deleted"))
             setTimeout(() => dispatch(removeNotification()), 3000)
           }
+          navigate("/")
         } catch (error) {
           console.error(error)
           dispatch(setWarning("There is a problem"))
@@ -43,7 +38,10 @@ const DeleteBtn = ({ blog }) => {
         }
       }}
     >
-      Delete
+      <span>Delete</span>
+      <span className="icon is-small">
+        <i className="fas fa-times"></i>
+      </span>
     </button>
   )
 }

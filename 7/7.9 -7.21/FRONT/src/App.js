@@ -17,6 +17,10 @@ import User from "./components/User"
 
 import Blog from "./components/Blog"
 import Navigation from "./components/Navigation"
+import { getAllUsers } from "./services/usersService"
+import { setUsers } from "./reducers/allUsersReducer"
+import commentsService from "./services/commentsService"
+import { setComments } from "./reducers/commentsReducer"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -31,6 +35,22 @@ const App = () => {
     }
   }, [dispatch])
 
+  useEffect(() => {
+    const user = JSON.parse(window.localStorage.getItem("loggedUser"))
+    if (user) {
+      commentsService.getAllComments(user.token).then((comments) => {
+        dispatch(setComments(comments))
+      })
+    }
+  }, [dispatch])
+
+  useEffect(() => {
+    const user = JSON.parse(window.localStorage.getItem("loggedUser"))
+    if (user) {
+      getAllUsers(user.token).then((users) => dispatch(setUsers(users)))
+    }
+  }, [dispatch])
+
   return (
     <div>
       {user === null ? (
@@ -40,16 +60,17 @@ const App = () => {
           <Router>
             <Navigation />
             <>
+            <Notification />
               <Routes>
-                <Route path="/blogs" element={<Blogs />} />
-                <Route path="/users" element={<Users />} />
-                <Route path="/users/:id" element={<User />} />
-                <Route path="/blogs/:id" element={<Blog />} />
+                <Route key="000" path="/" element={<Blogs />} />
+                <Route key="0000" path="/users" element={<Users />} />
+                <Route key="00000" path="/users/:id" element={<User />} />
+                <Route key="000000" path="/blogs/:id" element={<Blog />} />
               </Routes>
             </>
           </Router>
 
-          <Notification />
+        
         </div>
       )}
     </div>

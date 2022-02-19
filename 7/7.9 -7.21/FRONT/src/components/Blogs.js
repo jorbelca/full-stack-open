@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import ToggleButton from "./ToggleButton"
-import Blog from "./Blog"
+
 import blogService from "../services/blogService"
 import Create from "./Create"
 import { Link } from "react-router-dom"
@@ -11,8 +11,7 @@ import {
 } from "../reducers/notificationReducer"
 import { useDispatch, useSelector } from "react-redux"
 import { removeWarning, setWarning } from "../reducers/warningReducer"
-import { createBlogReducer, setBlogs } from "../reducers/blogsReducer"
-import { removeUser } from "../reducers/userReducer"
+import { createBlogReducer } from "../reducers/blogsReducer"
 
 const Blogs = () => {
   const [title, setTitle] = useState("")
@@ -34,12 +33,10 @@ const Blogs = () => {
         author: user.name,
         likes: "",
       }
-      blogService.createBlog(user.token, newBlog)
-      dispatch(createBlogReducer(newBlog))
-      // setTimeout(
-      //   () => blogService.getAll(user.token).then((blogs) => dispatch(setBlogs(blogs))),
-      //   500
-      // )
+      blogService
+        .createBlog(user.token, newBlog)
+        .then((response) => dispatch(createBlogReducer(response)))
+
       dispatch(
         setNotification(
           `The new Blog ${title} by ${user.name} has been created`
@@ -66,21 +63,30 @@ const Blogs = () => {
           setUrl={setUrl}
         />
       </ToggleButton>
-      <h2>Blogs</h2>
-      {blogs
-        .sort((a, b) => {
-          return b.likes - a.likes
-        })
-        .map((blog) => (
-          <ul>
-            <Link to={`/blogs/${blog.id}`}>
-              <li>
-                {blog.title}
-                {/* <Blog key={blog.id} blog={blog} user={user} blogs={blogs} /> */}
-              </li>
-            </Link>
-          </ul>
-        ))}
+
+      <div key="01" className="panel">
+        <p className="panel-heading">Blogs</p>
+
+        <ul key="00">
+          {blogs
+            .sort((a, b) => {
+              return b.likes - a.likes
+            })
+            .map((blog) => (
+              <Link to={`/blogs/${blog.id}`}>
+                <li key={blog.id} className="panel-block">
+                  <span className="panel-icon">
+                    <i
+                      className="fa-solid fa-angle-right"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+                  {blog.title}
+                </li>
+              </Link>
+            ))}
+        </ul>
+      </div>
     </>
   )
 }

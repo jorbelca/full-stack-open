@@ -20,12 +20,16 @@ const ToggleButton = React.forwardRef((props, ref) => {
     <>
       <div style={toggleStyle}>
         <div className={"toggleOutside"} style={hideWhenVisible}>
-          <button onClick={toggleVisibility}>{props.label}</button>
+          <button className="button is-light" onClick={toggleVisibility}>
+            {props.label}
+          </button>
         </div>
       </div>
       <div className={"toggleInside"} style={showWhenVisible}>
         {props.children}
-        <button onClick={toggleVisibility}>Hide</button>
+        <button className="button is-light" onClick={toggleVisibility}>
+          Hide
+        </button>
       </div>
     </>
   )

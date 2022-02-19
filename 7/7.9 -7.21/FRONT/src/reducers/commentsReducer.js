@@ -13,7 +13,9 @@ const commentsReducer = createSlice({
     },
     createComment(state, action) {
       const i = action.payload
-      state.concat(i)
+      console.log(i)
+      console.log(state)
+      state.push(i)
     },
     // deleteteBlogReducer(state, action) {
     //   const id = action.payload

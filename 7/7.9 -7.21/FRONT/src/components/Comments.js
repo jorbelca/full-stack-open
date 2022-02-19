@@ -1,21 +1,16 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import commentsService from "../services/commentsService"
 import { useDispatch, useSelector } from "react-redux"
-import { setComments } from "../reducers/commentsReducer"
+import { createComment, setComments } from "../reducers/commentsReducer"
 
 function Comments() {
   const { id } = useParams((n) => n.id)
   const comments = useSelector((state) => state.comments)
-  const blogs = useSelector((state) => state.blogs)
-
-  // const author = (id) => {
-  //   console.log(id)
-  //   const authors = blogs.map((n) => n.user[0].id)
-  //   if (authors === id) return authors.name
-  // }
+  const [comment, setComment] = useState("")
 
   const dispatch = useDispatch()
+  const users = useSelector((state) => state.users)
 
   useEffect(() => {
     const user = JSON.parse(window.localStorage.getItem("loggedUser"))
@@ -25,20 +20,54 @@ function Comments() {
     })
   }, [dispatch])
 
+  const handleSubmit = (e) => {
+    const user = JSON.parse(window.localStorage.getItem("loggedUser"))
+    const userId = users.find((n) => n.name === user.name)
+    const content = comment
+    e.preventDefault()
+
+    const newComment = {
+      content,
+      userId: userId.id,
+      blogId: id,
+    }
+    commentsService
+      .createComment(user.token, newComment)
+      .then((response) => dispatch(createComment(response)))
+  }
+
   return (
     <>
-      <h3>Commments</h3>
-      <form>
-        <input className="input is-medium" type="text" placeholder="comment" />
-        <input type="button" value="Add comment" />
+      <label className="label">Commments</label>
+
+      <form onSubmit={handleSubmit}>
+        <div className="field has-addons">
+          <div className="control is-expanded">
+            <input
+              className="input"
+              type="text"
+              placeholder="comment"
+              onChange={({ target }) => setComment(target.value)}
+            />
+          </div>
+
+          <div className="control">
+            <button className="button is-info" type="submit">
+              Add a comment
+            </button>
+          </div>
+        </div>
       </form>
 
-      <ul>
+      <ul key="000" className="mt-4">
         {comments
           .filter((item) => item.blog[0].id === id)
           .map((n) => (
-            <li key={n.id}>
-              {n.content} 
+            <li className="panel-block" key={n.id}>
+              <span className="icon is-small">
+                <i className="fa-solid fa-angle-right" aria-hidden="true"></i>
+              </span>
+              {n.content}
             </li>
           ))}
       </ul>

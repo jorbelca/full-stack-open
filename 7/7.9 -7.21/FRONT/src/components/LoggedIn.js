@@ -8,6 +8,7 @@ function LoggedIn() {
     <h5>
       {user.name} logged in{" "}
       <button
+        className="button is-danger is-light is-small is-outlined is-rounded"
         onClick={() => {
           window.localStorage.removeItem("loggedUser")
           dispatch(removeUser(null))

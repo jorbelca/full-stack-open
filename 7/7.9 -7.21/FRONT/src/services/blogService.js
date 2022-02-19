@@ -43,11 +43,14 @@ const deleteBlog = async (token, id) => {
 const updateBlog = async (token, blog) => {
   const updatedLikes = { ...blog }
   const id = updatedLikes.id
+
   try {
     updatedLikes.likes++
+
     const response = await axios.put(`${baseUrl}/${id}`, updatedLikes, {
       headers: setHeader(token),
     })
+
     return response.data
   } catch (e) {
     console.error(e)

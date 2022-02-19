@@ -1,7 +1,8 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
+@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css";
 
 #root {
-  padding-left: 10px;
+  padding-left: 50px;
 }
 .warning {
   color: red;
@@ -10,8 +11,9 @@
   padding: 10px;
   background-color: rgb(234, 230, 230);
   border-radius: 7px;
-  width: 50%;
+  width: 70%;
   font-size: 19px;
+  margin-top: 10px;
 }
 .message {
   color: green;
@@ -19,6 +21,7 @@
   border-radius: 7px;
   padding: 10px;
   background-color: rgb(234, 230, 230);
-  width: 50%;
+  width: 70%;
   font-size: 16px;
+  margin-top: 10px;
 }

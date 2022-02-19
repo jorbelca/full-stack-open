@@ -4,9 +4,9 @@ import LoggedIn from "./LoggedIn"
 
 const Navigation = () => {
   return (
-    <nav className="navbar" role="navigation">
+    <nav className="navbar is-spaced has-shadow is-light " role="navigation">
       <div className="navbar-start">
-        <Link className="navbar-item" to="/blogs">
+        <Link className="navbar-item" to="/">
           Blogs
         </Link>
         <Link className="navbar-item" to="/users">

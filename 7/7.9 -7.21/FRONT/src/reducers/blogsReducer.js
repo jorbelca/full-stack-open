@@ -11,18 +11,10 @@ const blogsReducer = createSlice({
       i.map((n) => state.push(n))
     },
     createBlogReducer(state, action) {
-      const i = action.payload
-      state.concat(i)
+      state.push(action.payload)
     },
     deleteteBlogReducer(state, action) {
-      const id = action.payload
-      console.log(id)
-      // const find = state.find((item) => item.id !== id)
-
-      return state.map((n) =>
-      n.id !== id ? n : ''
-    )
-      
+      return state.filter((element) => element.id !== action.payload)
     },
     updateLikesReducer(state, action) {
       const id = action.payload
