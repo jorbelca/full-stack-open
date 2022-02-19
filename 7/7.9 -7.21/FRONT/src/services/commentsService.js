@@ -19,7 +19,6 @@ const getAllComments = async (token) => {
 }
 
 const createComment = async (token, comment) => {
-  console.log(comment);
   try {
     const response = await axios.post(baseUrl, comment, {
       headers: setHeader(token),

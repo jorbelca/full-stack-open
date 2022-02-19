@@ -7,15 +7,10 @@ const commentsReducer = createSlice({
   initialState,
   reducers: {
     setComments(state, action) {
-      const i = action.payload
-
-      i.map((n) => state.push(n))
+      action.payload.map((n) => state.push(n))
     },
     createComment(state, action) {
-      const i = action.payload
-      console.log(i)
-      console.log(state)
-      state.push(i)
+      state.push(action.payload)
     },
     // deleteteBlogReducer(state, action) {
     //   const id = action.payload
@@ -26,12 +21,6 @@ const commentsReducer = createSlice({
     //   n.id !== id ? n : ''
     // )
 
-    // },
-    // updateLikesReducer(state, action) {
-    //   const id = action.payload
-    //   const filtredBlog = state.find((item) => item.id === id)
-
-    //   filtredBlog.likes++
     // },
   },
 })

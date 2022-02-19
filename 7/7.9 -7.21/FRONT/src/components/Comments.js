@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 import commentsService from "../services/commentsService"
 import { useDispatch, useSelector } from "react-redux"
-import { createComment, setComments } from "../reducers/commentsReducer"
+import { createComment } from "../reducers/commentsReducer"
 
 function Comments() {
   const { id } = useParams((n) => n.id)
@@ -11,14 +11,6 @@ function Comments() {
 
   const dispatch = useDispatch()
   const users = useSelector((state) => state.users)
-
-  useEffect(() => {
-    const user = JSON.parse(window.localStorage.getItem("loggedUser"))
-
-    commentsService.getAllComments(user.token).then((comments) => {
-      dispatch(setComments(comments))
-    })
-  }, [dispatch])
 
   const handleSubmit = (e) => {
     const user = JSON.parse(window.localStorage.getItem("loggedUser"))

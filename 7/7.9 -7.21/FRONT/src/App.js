@@ -60,7 +60,7 @@ const App = () => {
           <Router>
             <Navigation />
             <>
-            <Notification />
+              <Notification />
               <Routes>
                 <Route key="000" path="/" element={<Blogs />} />
                 <Route key="0000" path="/users" element={<Users />} />
@@ -69,8 +69,6 @@ const App = () => {
               </Routes>
             </>
           </Router>
-
-        
         </div>
       )}
     </div>

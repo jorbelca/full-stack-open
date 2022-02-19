@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import { removeUser } from "../reducers/userReducer"
 
 function LoggedIn() {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   return (
@@ -12,6 +14,7 @@ function LoggedIn() {
         onClick={() => {
           window.localStorage.removeItem("loggedUser")
           dispatch(removeUser(null))
+          navigate("/")
         }}
       >
         Logout

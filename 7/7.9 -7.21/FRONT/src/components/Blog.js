@@ -6,9 +6,13 @@ import LikeBtn from "./LikeBtn"
 
 const Blog = () => {
   const { id } = useParams((n) => n.id)
+
   const blogs = useSelector((state) => state.blogs)
   const blog = blogs.find((n) => n.id === id)
 
+  console.log(blogs)
+  console.log(blog)
+  
   return (
     <>
       <div className="blog box">

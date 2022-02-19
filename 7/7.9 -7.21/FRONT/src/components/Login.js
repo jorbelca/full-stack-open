@@ -6,6 +6,7 @@ import { removeWarning, setWarning } from "../reducers/warningReducer"
 import { setBlogs } from "../reducers/blogsReducer"
 import { setUser } from "../reducers/userReducer"
 
+
 const Login = () => {
   const dispatch = useDispatch()
   const [username, setUsername] = useState("")
@@ -28,6 +29,7 @@ const Login = () => {
         setUsername("")
         setPassword("")
       }
+
       if (!user) {
         dispatch(setWarning("Wrong credentials"))
         setTimeout(() => dispatch(removeWarning()), 3000)
@@ -59,7 +61,7 @@ const Login = () => {
           <div className="field">
             <p className="control has-icons-left has-icons-right">
               <input
-              className="input"
+                className="input"
                 type="text"
                 placeholder="Username"
                 name="username"
@@ -75,7 +77,7 @@ const Login = () => {
           <div className="field">
             <div className="control has-icons-left has-icons-right">
               <input
-              className="input"
+                className="input"
                 type="password"
                 placeholder="Password"
                 name="password"
