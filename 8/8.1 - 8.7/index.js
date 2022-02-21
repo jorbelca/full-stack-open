@@ -114,7 +114,8 @@ const typeDefs = gql`
       genres: [String]
       id: ID
     ): Book
-    addAuthor(name: String, id: ID, born: Int): Author
+    addAuthor(name: String!, id: ID, born: Int): Author
+    editAuthor(name: String!, setBornTo: Int): Author
   }
 `
 
@@ -147,7 +148,6 @@ const resolvers = {
   Mutation: {
     addBook: (root, args) => {
       if (authors.find((p) => p.name !== args.author)) {
-        console.log(args.author)
         if (!args.born) {
           args.born = null
         }
@@ -170,13 +170,22 @@ const resolvers = {
     },
 
     addAuthor: (root, args) => {
-      console.log(args)
       if (!args.born) {
         args.born = null
       }
       const author = { ...args, id: uuid() }
       authors = authors.concat(author)
       return author
+    },
+    editAuthor: (root, args) => {
+      const author = authors.find((p) => p.name === args.name)
+      if (!author) {
+        return null
+      }
+
+      const updatedAuthor = { ...author, born: args.setBornTo }
+      authors = authors.map((a) => (a.name === args.name ? updatedAuthor : ""))
+      return updatedAuthor
     },
   },
 }
