@@ -111,10 +111,19 @@ const resolvers = {
   Query: {
     authorCount: () => authors.length,
     bookCount: () => books.length,
-    allBooks: (root, arg) =>
-      books.filter((n) => n.genres.filter((m) => m === arg.genre)),
-    allBooks: (root, arg) =>
-      console.log(books.filter((n) => n.genres.map((m) => m))),
+    allBooks: (root, arg) => {
+      const { author, genre } = arg
+      if (!author) {
+        console.log(genre)
+        return books.filter((n) => n.genres.find((m) => m === arg.genre))
+      } else if (author && genre) {
+          console.log('all');
+        return books
+          .filter((n) => n.genres.find((m) => m === arg.genre))
+          .filter((n) => n.author === arg.author)
+      }
+    },
+
     allAuthors: () => authors,
   },
   Author: {
