@@ -1,26 +1,38 @@
-import { useQuery } from "@apollo/client"
+import { useQuery, useLazyQuery } from "@apollo/client"
 import { useEffect, useState } from "react"
 import { ALL_BOOKS } from "./GraphQL/queries"
 
-const Books = ({ show }) => {
+const Books = ({ show, notifyError }) => {
   const [genre, setGenre] = useState("")
-  const [books, setBooks] = useState([])
+  const [rBooks, setRBooks] = useState([])
 
-  const { data } = useQuery(ALL_BOOKS, { variables: {} })
+  const { data } = useQuery(ALL_BOOKS)
+
+  const [filtered, { data: filter }] = useLazyQuery(ALL_BOOKS, {
+    onError: (error) => {
+      console.log(error)
+      notifyError(error.graphQLErrors[0].message)
+    },
+  })
+
+  console.log(filter)
+
+  useEffect(() => {
+    if (filter) setRBooks(filter.allBooks)
+  }, [filter])
 
   useEffect(() => {
     if (data) {
-      console.log(data.allBooks)
-      data.allBooks.map((n) => setBooks(n))
+      setRBooks(data.allBooks)
     }
-  }, [])
+  }, [data])
 
-  console.log(books)
-  // if (books) {  console.log(books)
-  //   books.map((n) => n.genres.map((g) => ge.push(g)))
-  // }
-  // const ge = []
-  // const genres = [...new Set(ge)]
+  const ge = []
+  if (rBooks) {
+    rBooks.map((n) => n.genres.map((g) => ge.push(g)))
+  }
+
+  const genres = [...new Set(ge)]
 
   if (!show) {
     return null
@@ -31,7 +43,7 @@ const Books = ({ show }) => {
       <p>
         In genre <b>{genre}</b>
         {"  "}
-        <button onClick={() => setGenre("")}>Clean</button>
+        <button onClick={() => filtered()}>Clean</button>
       </p>
       <table>
         <tbody>
@@ -40,36 +52,28 @@ const Books = ({ show }) => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {genre == ""
-            ? books.map((a) => (
-                <tr key={a.id}>
-                  <td>{a.title}</td>
-                  <td>{a.author.name}</td>
-                  <td>{a.published}</td>
-                </tr>
-              ))
-            : books
-                .filter((n) => n.genres == genre)
-                .map((a) => (
-                  <tr key={a.id}>
-                    <td>{a.title}</td>
-                    <td>{a.author.name}</td>
-                    <td>{a.published}</td>
-                  </tr>
-                ))}
+          {rBooks.map((a) => (
+            <tr key={a.id}>
+              <td>{a.title}</td>
+              <td>{a.author.name}</td>
+              <td>{a.published}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
-      {/* <div>
+      <div>
         {genres.map((e) => (
           <button
             key={e + "1"}
             value={e}
-            onClick={({ target }) => setGenre(target.value)}
+            onClick={({ target }) => {
+              filtered({ variables: { genre: target.value } })
+            }}
           >
             {e}
           </button>
         ))}
-      </div> */}
+      </div>
     </div>
   )
 }
