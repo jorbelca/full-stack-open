@@ -14,7 +14,6 @@ function Login({ show, notifyError, setToken }) {
   })
   useEffect(() => {
     if (result.data) {
-      console.log(result)
       const token = result.data.login.value
       try {
         setToken(token)

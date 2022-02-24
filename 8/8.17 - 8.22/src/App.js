@@ -1,10 +1,11 @@
 import { useApolloClient } from "@apollo/client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Authors from "./components/Authors"
 import Books from "./components/Books"
 import Login from "./components/Login"
 import NewBook from "./components/NewBook"
 import Notify from "./components/Notify"
+import Recomendations from "./components/Recomendations"
 
 const App = () => {
   const [page, setPage] = useState("authors")
@@ -21,6 +22,10 @@ const App = () => {
     localStorage.clear()
     client.resetStore()
   }
+  useEffect(() => {
+    const token = localStorage.getItem("userToken")
+    setToken(token)
+  }, [])
   return (
     <div>
       <Notify errorMessage={errorMessage} />
@@ -32,6 +37,9 @@ const App = () => {
         ) : (
           <>
             <button onClick={() => setPage("add")}>add book</button>
+            <button onClick={() => setPage("recomendations")}>
+              recomendations
+            </button>
             <button onClick={() => logout()}>Logout</button>
           </>
         )}
@@ -48,6 +56,14 @@ const App = () => {
         notifyError={notifyError}
         setToken={setToken}
       />
+      {token ? (
+        <Recomendations
+          show={page === "recomendations"}
+          notifyError={notifyError}
+        />
+      ) : (
+        ""
+      )}
     </div>
   )
 }

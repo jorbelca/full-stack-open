@@ -3,7 +3,7 @@ import { useState } from "react"
 import { NEW_BOOK } from "./GraphQL/mutations"
 import { ALL_AUTHORS, ALL_BOOKS } from "./GraphQL/queries"
 
-const NewBook = (props) => {
+const NewBook = ({ show, notifyError }) => {
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
   const [published, setPublished] = useState("")
@@ -12,12 +12,10 @@ const NewBook = (props) => {
 
   const [createBook] = useMutation(NEW_BOOK, {
     refetchQueries: [{ query: ALL_AUTHORS }, { query: ALL_BOOKS }],
+    onError: (error) => {
+      notifyError(error.graphQLErrors[0].message)
+    },
   })
-
-  if (!props.show) {
-    return null
-  }
-
   const submit = async (event) => {
     event.preventDefault()
 
@@ -36,7 +34,9 @@ const NewBook = (props) => {
     setGenres(genres.concat(genre))
     setGenre("")
   }
-
+  if (!show) {
+    return null
+  }
   return (
     <div>
       <form onSubmit={submit}>

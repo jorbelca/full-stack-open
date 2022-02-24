@@ -8,7 +8,7 @@ function SetBirthyear({ notifyError, authors }) {
 
   const [editAuthor] = useMutation(MODIFY_BORN, {
     onError: (error) => {
-      notifyError(error.message)
+      notifyError(error.graphQlErrors[0].message)
     },
   })
 
