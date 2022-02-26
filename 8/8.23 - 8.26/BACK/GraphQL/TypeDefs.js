@@ -25,7 +25,7 @@ export const typeDefs = gql`
   }
   type Query {
     authorCount: Int!
-    bookCount: Int
+    bookCount: Book!
     allBooks(author: String, genre: String): [Book]
     allAuthors: [Author!]
     me: User

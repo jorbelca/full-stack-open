@@ -35,6 +35,7 @@ export const resolvers = {
     },
 
     allAuthors: async (root, arg) => {
+      console.log("AUTHOR FIND")
       return Author.find({})
     },
     me: (root, args, context) => {
@@ -42,19 +43,15 @@ export const resolvers = {
     },
   },
   Author: {
-    //NO VA
     bookCount: async (root, arg) => {
+      const { _id } = root
       ;("bookCount:")
-      const books = await Book.findOne({}).populate("author")
-
-      console.log(
-        books.foreach((p) => {
-          console.log(p.author.name)
-          console.log(root.name)
-          p.author.name === root.name
-        })
-      )
-
+      const books = await Book.find({ author: { $in: { _id } } })
+        .populate("author")
+        .count()
+      console.log("BOOK FIND")
+      console.log(books)
+      // console.log(root)
       return books
     },
   },
