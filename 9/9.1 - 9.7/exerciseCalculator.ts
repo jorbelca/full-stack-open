@@ -1,6 +1,15 @@
 
+const target: number = Number(process.argv[2])
+let hours: number[] = []
 
-const calculateExercises = (hours:number[],target:number) => {
+for (let i = 3; i < process.argv.length; i ++){
+    hours.push(Number( process.argv[i]))
+}
+
+
+
+const calculateExercises = (target:number,hours:number[]) => {
+ 
     interface Result{
  periodLength: Number,
   trainingDays: Number,
@@ -18,7 +27,6 @@ const calculateExercises = (hours:number[],target:number) => {
     const rating = Math.round(average);
     const ratingDescription = (rating:number):string =>{
     if(rating  < 1)  'Bad' ;
-
     else if(rating > 1 && rating <2)return "Keep working you're in the good path";
    else  if(rating >2 && rating < 3)return 'Good, stay in';}
     
@@ -33,6 +41,7 @@ ratingDescription,
 target ,
 average
     }
+    
 
 
     return result
@@ -40,8 +49,9 @@ average
 
 
 try{
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1] ,2))}
+console.log(calculateExercises(target, hours))
+}
 catch(error:unknown){
     console.log(error);
-    
 }
+
