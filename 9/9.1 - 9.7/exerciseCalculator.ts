@@ -1,34 +1,33 @@
 
-const target: number = Number(process.argv[2])
-let hours: number[] = []
+// const target = Number(process.argv[2]);
+// const hours: number[] = [];
 
-for (let i = 3; i < process.argv.length; i ++){
-    hours.push(Number( process.argv[i]))
-}
+// for (let i = 3; i < process.argv.length; i ++){
+//     hours.push(Number( process.argv[i]));
+// }
 
-
-const calculateExercises = (target:number,hours:number[]) => {
- 
- public interface Result{
- periodLength: Number,
-  trainingDays: Number,
-  success: Boolean,
-  rating: Number
-  ratingDescription: Function,
-  target: Number,
-  average: Number 
+interface Result{
+ periodLength: number,
+  trainingDays: number,
+  success: boolean,
+  rating: number
+  ratingDescription: any,
+  target: number,
+  average: number 
     }
-  
-
+export const calculateExercises = (target:number,hours:number[]) => {
+   
+ 
     const periodLength = hours.length;
     const trainingDays= hours.filter(x=>x>0).length;
     const average = hours.reduce((a,b) => a+b,0) / hours.length;
     const success = target < average;
     const rating = Math.round(average);
-    var ratingDescription = function (rating:number) {
-    if(rating  < 1){return 'Bad'} ;
-     if(rating >= 1 && rating <= 2){return "Keep working you're in the good path"}
-     if(rating >= 2 && rating <= 3){return 'Good, stay in'};}
+    const ratingDescription = (rating:number) => {
+        if(rating  < 1){return 'Bad';} 
+         if(rating >= 1 && rating <= 2){return "Keep working you're in the good path";}
+         if(rating >= 2 && rating <= 3){return 'Good, stay in';}
+        else return null;}
     
 
     const result : Result =  {
@@ -36,18 +35,20 @@ const calculateExercises = (target:number,hours:number[]) => {
  trainingDays,
 success ,
 rating,
- ratingDescription,
+ ratingDescription ,
 target ,
 average,
- }
- return result
-}
+ };
 
 
-try{
-console.log(calculateExercises(target, hours))
-}
-catch(error:unknown){
-    console.log(error);
-}
+ return result;
+};
+
+
+// try{
+// console.log(calculateExercises(target, hours));
+// }
+// catch(error:unknown){
+//     console.log(error);
+// }
 
