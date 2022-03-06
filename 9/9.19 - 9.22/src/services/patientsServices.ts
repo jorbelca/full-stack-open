@@ -7,11 +7,10 @@ id,name, gender, dateOfBirth, occupation
 }));
 };
 
-const getSinglePatient = (id:string) :Patient => {
-const pat:any = patients.find(patient => patient.id === id);
-    return pat;
-    
-};
+const getSinglePatient = (id:string) :Patient | undefined => {
+  const pat  = patients.find(patient => patient.id === id);
+    return pat ;
+   };
 
 const addPatient = (patient: newPatient) :newPatient=> {
 

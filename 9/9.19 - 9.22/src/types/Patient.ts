@@ -1,9 +1,11 @@
+import { Diagnosis } from "../../FRONT/src/types";
+
 export interface Patient {
     id: string,
     name: string,
     dateOfBirth: string,
     ssn: string,
-    gender: string| Gender;
+    gender: Gender;
     occupation: string;
     entries?: Entry[]
 }
@@ -28,7 +30,7 @@ interface BaseEntry {
     description: string;
     date: string;
     specialist: string;
-    diagnosisCodes?: string[];
+    diagnosisCodes?: Array<Diagnosis['code']>;
   }
   interface OccupationalHealthcareEntry extends BaseEntry {
     type:"OccupationalHealthcare"
