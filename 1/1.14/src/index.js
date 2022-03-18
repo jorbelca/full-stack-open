@@ -32,7 +32,7 @@ const App = (props) => {
       <div>
         <h3>Anectode with most votes</h3>
         {anecdotes[posicion]}
-        <p>has {vote[selected]} votes</p>
+        <p>has {Math.max(...vote)} votes</p>
       </div>
     </div>
   )
