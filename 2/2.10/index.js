@@ -1,46 +1,44 @@
 import React, { useState } from "react"
 import ReactDOM from "react-dom"
 
-const Persons = ({ persons }) => {
+const Persons = ({ persons, search }) => {
   return (
     <>
       <ul>
-        {persons.map((person) => (
-          <li key={person.name}>
-            <span>{person.name}</span>
-            <span>&nbsp;</span>
-            <span>&nbsp;</span>
-            <span>{person.number}</span>
-          </li>
-        ))}
+        {persons
+          .filter((person) => {
+            if (search === "") {
+              return person
+            } else if (person.name.toLowerCase().includes(search.trim())) {
+              return person
+            }
+          })
+          .map((person) => (
+            <li key={person.name}>
+              <span>{person.name}</span>
+              <span>&nbsp;</span>
+              <span>&nbsp;</span>
+              <span>{person.number}</span>
+            </li>
+          ))}
       </ul>
     </>
   )
 }
 
-const Filter = ({ search, persons, newSearch, setPersons }) => {
-  const filter = (search) => {
-    const result = persons.filter((person) => {
-      if (
-        person.name.toLocaleLowerCase().includes(search.toLowerCase()) ||
-        person.number.includes(search)
-      ) {
-        return person
-      }
-    })
-
-    setPersons(result)
-  }
-
-const handleFilter = (e) => {
-    newSearch(e.target.value)
-    filter(e.target.value)
-  }
-    return (
+const Filter = ({ newSearch }) => {
+  return (
     <div>
       Filter shown with<span>&nbsp;</span>
       <span>
-        <input value={search} onChange={handleFilter} />
+        <input
+          id="filterPerson"
+          type="text"
+          placeholder="name"
+          onChange={(e) => {
+            newSearch(e.target.value)
+          }}
+        />
       </span>
     </div>
   )
@@ -104,7 +102,12 @@ const App = () => {
   }
 
   const compare = (newName, pers) => {
-    if (persons.filter((person) => person.name === newName).length >= 1) {
+    if (
+      persons.filter(
+        (person) =>
+          person.name.toLocaleLowerCase() === newName.toLocaleLowerCase()
+      ).length >= 1
+    ) {
       alert(`${newName} is already added to the phonebook`)
     } else {
       setPersons(persons.concat(pers))
@@ -116,12 +119,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter
-        search={search}
-        persons={persons}
-        newSearch={newSearch}
-        setPersons={setPersons}
-      />
+      <Filter newSearch={newSearch} />
       <h3>Add a New</h3>
       <PersonForm
         addName={addName}
@@ -130,7 +128,7 @@ const App = () => {
         handlePersonNumber={handlePersonNumber}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} />
+      <Persons persons={persons} search={search} />
     </div>
   )
 }
