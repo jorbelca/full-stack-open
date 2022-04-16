@@ -10,7 +10,7 @@ const personSchema = new mongoose.Schema({
     uniqueCaseInsensitive: true,
   },
   number: {
-    type: Number,
+    type: String,
     required: true,
     unique: true,
     validate: [
@@ -22,7 +22,10 @@ const personSchema = new mongoose.Schema({
       },
       {
         validator: function (v) {
-          return /\d{3}-\d{5}/.test(v) || /\d{2}-\d{6}/.test(v)
+          return (
+            /^\+?[0-9]{3}-[0-9]{6,12}$/.test(v) ||
+            /^\+?[0-9]{2}-[0-9]{6,12}$/.test(v)
+          )
         },
         message: (props) => `${props.value} is not a valid phone number!`,
       },
