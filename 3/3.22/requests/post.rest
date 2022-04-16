@@ -1,8 +1,0 @@
-POST http://localhost:3001/api/persons
-Content-Type: application/json
-
-{
-    "name": " Jordi Belda",
-    "number": "5555",
-    "id": 8
-}
