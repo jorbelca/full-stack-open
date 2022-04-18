@@ -1,5 +1,5 @@
 require("dotenv").config()
 
-const URL = process.env.MONGO_URI
+const URL = "mongodb://localhost/bloglist"
 
 module.exports = URL
