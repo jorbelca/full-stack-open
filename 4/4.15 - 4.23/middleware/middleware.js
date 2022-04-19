@@ -1,3 +1,6 @@
+const User = require("../models/user")
+const tokenExtractor = require("./tokenExtractor")
+
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" })
 }
@@ -18,5 +21,12 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
-const userExtractor = 
+const userExtractor = async (request, response, next) => {
+  const userId = request.body.userId
+  const user = await User.findById(userId)
+
+  request.user = user
+  next()
+}
+
 module.exports = { unknownEndpoint, errorHandler, userExtractor }

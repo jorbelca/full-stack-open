@@ -23,14 +23,14 @@ blogsRouter.post("/", userExtractor, async (request, response) => {
       user = await User.find({})
       user = user[0]
     } else {
-      user = await User.findById(userId)
+      user = request.user
     }
 
-    const nameToken = await User.findById(userId)
+    const nameToken = request.user.name
 
     const blog = new Blog({
       title,
-      author: nameToken.name,
+      author: nameToken,
       url,
       likes: likes === "" ? 0 : likes,
       user: user._id,
@@ -47,7 +47,7 @@ blogsRouter.post("/", userExtractor, async (request, response) => {
 })
 
 blogsRouter.delete("/:id", userExtractor, async (request, response) => {
-  const { userId } = request.body
+  const userId = request.user._id
   const { id } = request.params
 
   const { user } = await Blog.findById(id)
