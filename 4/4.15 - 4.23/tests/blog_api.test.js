@@ -13,8 +13,8 @@ const api = supertest(app)
 //   await Promise.all(promiseArray)})
 const token = async () => {
   const response = await api.post("/api/login").send({
-    username: "JBoo",
-    password: "7777",
+    username: "test",
+    password: "1234",
   })
   const token = response.body.token
 
