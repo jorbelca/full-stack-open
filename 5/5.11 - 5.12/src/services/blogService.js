@@ -1,5 +1,5 @@
 import axios from "axios"
-const baseUrl = "http://localhost:3003/api/blogs"
+const baseUrl = "http://localhost:3030/api/blogs"
 
 const setHeader = (token) => {
   return { Authorization: `Bearer ${token}` }

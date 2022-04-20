@@ -41,5 +41,4 @@ LikeBtn.propTypes = {
   setBlogs: propTypes.func.isRequired,
   user: propTypes.object.isRequired,
   blogs: propTypes.array.isRequired,
-  updateBlog: propTypes.func.isRequired,
 }
