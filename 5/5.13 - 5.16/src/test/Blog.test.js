@@ -1,8 +1,9 @@
 import React from "react"
-import { render, fireEvent } from "@testing-library/react"
+import { render, screen, fireEvent } from "@testing-library/react"
 import "@testing-library/jest-dom/extend-expect"
 import Blog from "../components/Blog"
-import LikeBtn from "../components/LikeBtn"
+import userEvent from "@testing-library/user-event"
+
 // 5.13 Realice una prueba que verifique que el componente que muestra un blog muestre el título y el autor del blog, pero no muestre su URL o el número de likes por defecto
 test("The component Blog shows the title and the author of the blog, but not the url or likes by defect", () => {
   const blog = {
@@ -51,28 +52,33 @@ test("The url and the number of likes should be shown when the button is clicked
 // 5.15 una prueba que garantice que si se hace clic dos veces en el botón like, se llama dos veces al controlador de eventos que el componente recibió como argumentos.
 
 test("When the like button is clicked two times, should call the function that manages the event two times", () => {
-  const Blg = new Array({
+  const Blg = {
     title: "Test",
     author: "Myself",
     url: "https://www.test.es",
     likes: 0,
-  })
+  }
+
   const mockHandler = jest.fn()
 
-  console.log(mockHandler)
-  const component = render(
+  render(
     <>
-      <LikeBtn test={mockHandler} />
+      <Blog blog={Blg} setBlogs={mockHandler} />
     </>
   )
-  expect(component).toBeDefined()
+  const title = screen.getByText("Test")
+  expect(title).toBeDefined()
 
-  const likeBtn = component.container.querySelector(".likeBtn")
+  const button = screen.getByText("View")
+  expect(button).toBeDefined()
+
+  fireEvent.click(button)
+
+  const likeBtn = screen.getByTestId("likeBtn")
   expect(likeBtn).toBeDefined()
+
   fireEvent.click(likeBtn)
   fireEvent.click(likeBtn)
 
-  expect(mockHandler).toHaveBeenCalledTimes(2)
-
-  component.debug()
+  // expect(mockHandler.mock.calls).toHaveLength(2)
 })

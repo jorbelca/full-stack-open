@@ -3,7 +3,15 @@ import LikeBtn from "./LikeBtn"
 import ToggleButton from "./ToggleButton"
 import React from "react"
 
-const Blog = ({ blog, user, setBlogs, blogs, setMessage, setWarning }) => {
+const Blog = ({
+  blog,
+  user,
+  setBlogs,
+  blogs,
+  setMessage,
+  setWarning,
+
+}) => {
   return (
     <>
       <div className="blog">
@@ -13,7 +21,13 @@ const Blog = ({ blog, user, setBlogs, blogs, setMessage, setWarning }) => {
           Author: {blog.author}
           <br />
           Likes: {blog.likes}
-          <LikeBtn blog={blog} user={user} setBlogs={setBlogs} blogs={blogs} />
+          <LikeBtn
+            blog={blog}
+            user={user}
+            setBlogs={setBlogs}
+            blogs={blogs}
+
+          />
           <br />
           URL: {blog.url}
           <br />

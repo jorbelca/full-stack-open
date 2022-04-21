@@ -11,11 +11,12 @@ const LikeBtn = ({ blog, user, setBlogs, blogs, test }) => {
   return (
     <button
       className="likeBtn"
+      data-testid="likeBtn"
       style={stylesLike}
       onClick={(e) => {
         try {
           e.preventDefault()
-          test()
+
           const filtredBlog = blogs.filter((item) => item.id === blog.id)
           const updatedLikes = {
             ...filtredBlog,
@@ -25,7 +26,7 @@ const LikeBtn = ({ blog, user, setBlogs, blogs, test }) => {
 
           setBlogs([...blogs])
         } catch (e) {
-          console.error(e)
+          console.error(e.message)
         }
       }}
     >
@@ -36,7 +37,7 @@ const LikeBtn = ({ blog, user, setBlogs, blogs, test }) => {
 
 export default LikeBtn
 
-// LikeBtn.propTypes = {
+// LikeBtn.Types = {
 //   blog: propTypes.object.isRequired,
 //   setBlogs: propTypes.func.isRequired,
 //   user: propTypes.object.isRequired,
