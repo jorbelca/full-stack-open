@@ -87,16 +87,12 @@ const About = () => (
 )
 
 const CreateNew = (props) => {
-  const content = useField("text")
-  const author = useField("text")
-  const info = useField("text")
+  const { reset: resContent, ...content } = useField("text")
+  const { reset: resAuthor, ...author } = useField("text")
+  const { reset: resInfo, ...info } = useField("text")
 
   const navigate = useNavigate()
   const handleSubmit = (e) => {
-    // if (e.nativeEvent.submitter.innerHTML === "Reset") {
-    //   e.preventDefault()
-    //   document.getElementById("createForm").reset()
-    // }
     e.preventDefault()
     props.addNew({
       content: content.value,
@@ -105,6 +101,13 @@ const CreateNew = (props) => {
       votes: 0,
     })
     navigate("/")
+  }
+
+  const handleFormReset = (e) => {
+    e.preventDefault()
+    resContent()
+    resAuthor()
+    resInfo()
   }
 
   const formStyle = {
@@ -133,7 +136,7 @@ const CreateNew = (props) => {
         </div>
         <button>Create</button>
 
-        <input type="button" />
+        <button onClick={handleFormReset}>Reset</button>
       </form>
     </div>
   )
