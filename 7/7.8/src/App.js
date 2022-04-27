@@ -1,5 +1,3 @@
-
-
 import { useField, useResource } from "./hooks"
 
 const App = () => {
@@ -38,7 +36,7 @@ const App = () => {
         <button>create</button>
       </form>
       {persons.map((n) => (
-        <p key={n.id}>
+        <p key={n.id+'a'}>
           {n.name} {n.number}
         </p>
       ))}
