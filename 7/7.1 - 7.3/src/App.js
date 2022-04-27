@@ -6,6 +6,7 @@ import {
   Route,
   Routes,
   useParams,
+  useNavigate,
 } from "react-router-dom"
 
 const Menu = () => {
@@ -91,7 +92,10 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState("")
   const [info, setInfo] = useState("")
 
+  const navigate = useNavigate()
+
   const handleSubmit = (e) => {
+    navigate("/")
     e.preventDefault()
     props.addNew({
       content,
@@ -160,7 +164,7 @@ const Footer = () => {
       See{" "}
       <a href="https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js">
         https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js
-      </a>{" "}
+      </a>
       for the source code.
     </div>
   )
