@@ -9,26 +9,22 @@ const Users = () => {
       <h2>Users</h2>
       <table className="table">
         <tbody>
-          <>
-            <td>
-              <thead>
-                <th>Users</th>
-              </thead>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <Link to={`/users/${user.id}`}>{user.name}</Link>
-                </tr>
-              ))}
-            </td>
-            <td>
-              <thead>
-                <th>Blogs created</th>
-              </thead>
-              {users.map((user) => (
-                <tr>{user.blogs.length}</tr>
-              ))}
-            </td>
-          </>
+          <tr>
+            <th>Users</th>
+            {users.map((user) => (
+              <td key={user.id}>
+                <Link to={`/users/${user.id}`}>{user.name}</Link>
+              </td>
+            ))}
+          </tr>
+
+          <tr>
+            <th>Blogs created </th>
+
+            {users.map((user) => (
+              <td key={user.id}>{user.blogs.length}</td>
+            ))}
+          </tr>
         </tbody>
       </table>
     </div>

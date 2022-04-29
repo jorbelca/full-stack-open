@@ -8,15 +8,14 @@ const User = () => {
 
   return (
     <>
-      <h3>{user.name}</h3>
+      <h2>{user.name}</h2>
       <h5>Added Blogs</h5>
-      <ul>
-        {user.blogs.map((blog) => (
-          <Link to={`/blogs/${blog.id}`}>
-            <li>{blog.title}</li>
-          </Link>
-        ))}
-      </ul>
+
+      {user.blogs.map((blog) => (
+        <Link key={blog.id} to={`/blogs/${blog.id}`}>
+          <li key={blog.id}>{blog.title}</li>
+        </Link>
+      ))}
     </>
   )
 }

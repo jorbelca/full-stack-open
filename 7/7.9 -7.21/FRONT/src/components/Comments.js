@@ -13,10 +13,10 @@ function Comments() {
   const users = useSelector((state) => state.users)
 
   const handleSubmit = (e) => {
+    e.preventDefault()
     const user = JSON.parse(window.localStorage.getItem("loggedUser"))
     const userId = users.find((n) => n.name === user.name)
     const content = comment
-    e.preventDefault()
 
     const newComment = {
       content,
@@ -26,6 +26,9 @@ function Comments() {
     commentsService
       .createComment(user.token, newComment)
       .then((response) => dispatch(createComment(response)))
+
+    console.log(comments.filter((item) => item.blog[0].id === id))
+    console.log(comments)
   }
 
   return (

@@ -73,10 +73,11 @@ const Blogs = () => {
               return b.likes - a.likes
             })
             .map((blog) => (
-              <Link to={`/blogs/${blog.id}`}>
+              <Link key={blog.id} to={`/blogs/${blog.id}`}>
                 <li key={blog.id} className="panel-block">
                   <span className="panel-icon">
                     <i
+                      key={blog.id}
                       className="fa-solid fa-angle-right"
                       aria-hidden="true"
                     ></i>

@@ -10,7 +10,7 @@ const Blog = () => {
   const blogs = useSelector((state) => state.blogs)
   const blog = blogs.find((n) => n.id === id)
 
-  console.log(blogs)
+
   console.log(blog)
   
   return (
