@@ -123,17 +123,21 @@ const resolvers = {
   Query: {
     authorCount: () => authors.length,
     bookCount: () => books.length,
-    allBooks: (root, arg) => {
-      const { author, genre } = arg
-      if (!author) {
-        console.log(genre)
-        return books.filter((n) => n.genres.find((m) => m === arg.genre))
-      } else if (author && genre) {
-        console.log("all")
+    allBooks: (root, args) => {
+      const { author, genre } = args
+      if (!author && !genre) {
         return books
-          .filter((n) => n.genres.find((m) => m === arg.genre))
-          .filter((n) => n.author === arg.author)
       }
+
+      let filteredAuth = []
+      if (author) {
+        filteredAuth = books.filter((book) => book.author === author)
+      }
+      let filterGenre = []
+      if (genre) {
+        filterGenre = books.filter((book) => book.genres.includes(genre))
+      }
+      return [...filteredAuth, ...filterGenre]
     },
 
     allAuthors: () => authors,
@@ -158,7 +162,7 @@ const resolvers = {
           author: args.author,
           title: args.title,
           published: args.published,
-          genres: [args.genres],
+          genres: args.genres,
           id: uuid(),
         }
         books = books.concat(book)
@@ -179,12 +183,14 @@ const resolvers = {
     },
     editAuthor: (root, args) => {
       const author = authors.find((p) => p.name === args.name)
-      if (!author) {
+      if (!author || !args.name) {
         return null
       }
 
       const updatedAuthor = { ...author, born: args.setBornTo }
-      authors = authors.map((a) => (a.name === args.name ? updatedAuthor : ""))
+      authors = authors.map((a) =>
+        a.name !== updatedAuthor.name ? a : updatedAuthor
+      )
       return updatedAuthor
     },
   },
