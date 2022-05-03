@@ -22,14 +22,38 @@ if(!weight || isNaN(weight)) return res.send({error:'Please give the correct wei
 });
 
 app.post('/',jsonParser, (req,res) => {
+    const body = req.body;
 
-    var hours = Array(req.body.daily_exercises)
-    var target = Number(req.body.target)
+    var target = Number(body.target)
 
-    if(!target ||  isNaN(Number(target)))return res.send({error: 'parameters missing'}).status(400)
-    if(!hours ||  isNaN(Number(hours))) return res.send({error: 'parameters missing'}).status(400)
+    if (
+        !Array.isArray(body.daily_exercises) ||
+        body.daily_exercises.length === 0
+      ) {
+        res.status(400).json({
+          error: "malformatted parameters",
+        });
+        return;
+      }
+      const exercises = body.daily_exercises.map((e: number | string) => Number(e));
+      for (const value of exercises) {
+        if (isNaN(value)) {
+          res.status(400).json({
+            error: "malformatted parameters",
+          });
+          return;
+        }
+      }
+      if (exercises.filter((e: number) => e < 0).length > 0) {
+        res.status(400).json({
+          error: "Negative values are not allowed",
+        });
+        return;
+      }
 
-    const resp = calculateExercises(target,hours)
+    const resp = calculateExercises(target,exercises)
+    
+    
 
 return res.send(resp)
 })

@@ -23,19 +23,20 @@ export const calculateExercises = (target:number,hours:number[]) => {
     const average = hours.reduce((a,b) => a+b,0) / hours.length;
     const success = target < average;
     const rating = Math.round(average);
-    const ratingDescription = (rating:number) => {
-        if(rating  < 1){return 'Bad';} 
-         if(rating >= 1 && rating <= 2){return "Keep working you're in the good path";}
-         if(rating >= 2 && rating <= 3){return 'Good, stay in';}
-        else return null;}
+    const ratingD : { [index: string]: string } = {
+        1: 'Bad',
+        2: "Keep working you're in the good path",
+        3: 'Good, stay in',
+      };
     
+  
 
     const result : Result =  {
  periodLength ,
  trainingDays,
 success ,
 rating,
- ratingDescription ,
+ ratingDescription :ratingD[rating],
 target ,
 average,
  };
