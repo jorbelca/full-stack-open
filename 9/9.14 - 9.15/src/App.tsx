@@ -1,33 +1,7 @@
-import React from 'react';
 import Header from "./components/Header"
 import Content from "./components/Content"
 import Total from "./components/Total"
-
-interface CoursePartBase {
-  name: string;
-  exerciseCount: number;
-  type: string;
-  description?: string;
-}
-
-interface CourseNormalPart extends CoursePartBase {
-  type: "normal";
- }
-interface CourseProjectPart extends CoursePartBase {
-  type: "groupProject";
-  groupProjectCount: number;
-}
-
-interface CourseSubmissionPart extends CoursePartBase {
-  type: "submission";
-  exerciseSubmissionLink: string;
-}
-interface CourseSpecial extends CoursePartBase {
-  type: "special";
-  requirements: string[]
-}
-
-type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart | CourseSpecial;
+import { CoursePart } from './types';
 
 
 const App = () => {
@@ -69,8 +43,8 @@ const App = () => {
   return (
     <div>
       <Header courseName={courseName}/>
-        <Content courseParts={courseParts}/>
-      <Total courseParts={courseParts}/>
+        <Content parts={courseParts}/>
+      <Total parts={courseParts}/>
        
     </div>
   );

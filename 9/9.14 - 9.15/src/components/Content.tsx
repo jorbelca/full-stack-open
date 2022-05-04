@@ -1,11 +1,15 @@
-import React from 'react'
+import { CourseParts } from "../types"
 import Part from "./Part"
-import CoursePart from '../App'
 
-const Content = ({courseParts}:{courseParts:CoursePart}) => {
+
+const Content = ({parts}:CourseParts) => {
   return (
 <div>
-<Part key={Math.random()} courseParts={courseParts}/>
+  {parts.map((part)=>{
+    return <Part key={Math.random()} part={part}/>
+  
+  })}
+
 </div>
   )
 }

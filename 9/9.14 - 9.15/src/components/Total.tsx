@@ -1,13 +1,22 @@
 import React from 'react'
-import CoursePart from '../App'
 
-const Total = ({courseParts}:{courseParts:CoursePart}) => {
+
+interface TContent {
+  name:string;
+  exerciseCount: number
+}
+
+interface TotalProps{
+  parts: TContent[]
+}
+const Total = ({parts}:TotalProps) => {
   return (
     <div>
     <p>
       <b>
     Number of exercises: {" "}
-    {courseParts.reduce((carry:number, part:CoursePart) => carry + part.exerciseCount, 0)}</b>
+    {parts.reduce((carry, part) => carry + part.exerciseCount, 0)}
+    </b>
   </p>
     </div>
   )

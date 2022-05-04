@@ -1,25 +1,59 @@
 import {assertNever} from '../helpers/helpers'
-import CoursePart from '../App'
+import { CoursePart } from '../types';
 
-const Part = ({courseParts}:{courseParts: CoursePart}): CoursePart => {
-courseParts.forEach(p => {
-    switch(p.name){
-        case"Fundamentals":
-         break;
-        case"Advanced": break;
-        case"Using props to pass data": break;
-        case"Deeper type usage": break;
-        case"Backend development": break;
-        default: return assertNever(p)
-    }
-})
-return(
-courseParts.map((n:CoursePart) => <div key={Math.random()}><p key={n.name}><b>{n.name} : {n.exerciseCount}</b></p> 
-<i><p>{n.description}</p></i>
-{n.groupProjectCount ? <p>Project exercises : {n.groupProjectCount}</p>: ''}
-{n.exerciseSubmissionLink ? <p>Submit to : {n.exerciseSubmissionLink}</p>:''}
-{n.requirements ?  <p key={n}>Required Skills:{n.requirements.map((n:CoursePart)=> ` ${n} , `)}</p> : ""}
-</div>))
+
+const Part = ({part}:{part: CoursePart}) => {
+    switch (part.type) {
+        case "normal":
+          return (
+            <div>
+              <p>
+                <strong>
+                  {part.name} {part.exerciseCount}
+                </strong>
+              </p>
+              <p>{part.description}</p>
+            </div>
+          );
+        case "groupProject":
+          return (
+            <div>
+              <p>
+                <strong>
+                  {part.name} {part.exerciseCount}
+                </strong>
+              </p>
+              <p>project exercises {part.groupProjectCount}</p>
+            </div>
+          );
+        case "submission":
+          return (
+            <div>
+              <p>
+                <strong>
+                  {part.name} {part.exerciseCount}
+                </strong>
+              </p>
+              <p>{part.description}</p>
+              <p>submit to {part.exerciseSubmissionLink}</p>
+            </div>
+          );
+        case "special":
+          return (
+            <div>
+              <p>
+                <strong>
+                  {part.name} {part.exerciseCount}
+                </strong>
+              </p>
+              <p>{part.description}</p>
+              <p>required skills {part.requirements}</p>
+            </div>
+          );
+        default:
+          assertNever(part);
+      }
+      return null;
 }
 
 export default Part
